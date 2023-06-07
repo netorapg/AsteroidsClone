@@ -1,0 +1,13 @@
+{
+    "Lua.diagnostics.globals": [
+        "mouse_x",
+        "mouse_y",
+        "deugging",
+        "debugging",
+        "game",
+        "player",
+        "debbuging",
+        "asteroids",
+        "faded"
+    ]
+}
