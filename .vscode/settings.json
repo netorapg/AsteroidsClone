@@ -8,6 +8,10 @@
         "player",
         "debbuging",
         "asteroids",
-        "faded"
+        "faded",
+        "show_debugging",
+        "destroy",
+        "ASTEROID_SIZE",
+        "calculateDistance"
     ]
 }

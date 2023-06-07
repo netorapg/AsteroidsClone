@@ -1,7 +1,8 @@
+require "globals"
+
 local love = require "love"
 
-function Asteroids(x, y, ast_size, level, debugging)
-    debugging = debugging or false
+function Asteroids(x, y, ast_size, level) -- we remove show_debugging, since it's global now
 
     local ASTEROID_VERT = 10 -- average verticies... how many edges it will gave
     local ASTEROID_JAG = 0.4 -- asteroid jaggedness (less round)
@@ -52,7 +53,7 @@ function Asteroids(x, y, ast_size, level, debugging)
                 points
             )
 
-            if debugging then
+            if show_debugging then -- changed to global show_debugging
                 love.graphics.setColor(1, 0, 0)
                 
                 love.graphics.circle("line", self.x, self.y, self.radius) -- the hitbox of the asteroid
@@ -76,6 +77,20 @@ function Asteroids(x, y, ast_size, level, debugging)
                 self.y = -self.radius
             end
         end,
+
+        -- so asteroids can be destroyed
+        destroy - function (self, asteroids_tbl, index, game)
+            local MIN_ASTEROID_SIZE = math.ceil(ASTEROID_SIZE / 8)
+
+            -- split asteroid if it's bigger than the min size
+            if self.radius > MIN_ASTEROID_SIZE then
+                -- size will automatically half, since radius is / 2 when converted to new radius
+                table.insert(asteroids_tbl, Asteroids(self.x, self.y, self.radius, game.level))
+                table.insert(asteroids_tbl, Asteroids(self.x, self.y, self.radius, game.level))
+            end
+
+            table.remove(asteroids_tbl, index) -- remove ourself
+        end
     }
 end
 

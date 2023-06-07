@@ -1,3 +1,5 @@
+require "globals"
+
 local love = require "love"
 
 local Player = require "objects/Player"
@@ -9,9 +11,8 @@ function love.load()
     love.mouse.setVisible(false)
     mouse_x, mouse_y = 0, 0
 
-    local show_debugging = true
     
-    player = Player(show_debugging)
+    player = Player() -- removed show_debugging
     game = Game()
     game:startNewGame(player)
 end
@@ -41,6 +42,15 @@ end
 function love.keyreleased(key)
     if key == "w" or key == "up" or key == "kp8" then
         player.thrusting = false
+    end
+end
+
+-- mouse pressed if hte player wants to shoot the lazer with mouse
+function love.mousepressed(x, y, button, istouch, presses)
+    if button == 1 then
+       if game.state.running then
+        player:shootLazer()
+       end
     end
 end
 -- KEYBINDINGS --
